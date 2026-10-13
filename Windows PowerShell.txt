@@ -1,0 +1,29 @@
+Windows PowerShell
+Copyright (C) Microsoft Corporation. All rights reserved.
+
+PS C:\Users\admin> # Tao file log mau neu chua ton tai
+PS C:\Users\admin> if (-not (Test-Path .\server.log)) {
+>> @"
+>> 2026-09-18 01:05:22 INFO     Service started successfully
+>> 2026-09-18 02:30:11 CRITICAL Database connection pool exhausted
+>> 2026-09-18 02:30:45 CRITICAL Retry limit exceeded for payment-service
+>> 2026-09-18 03:00:00 WARNING  Disk usage at 85%
+>> 2026-09-18 03:15:00 INFO     Health check passed
+>> "@ | Set-Content .\server.log -Encoding utf8
+>> }
+PS C:\Users\admin>
+PS C:\Users\admin> # Tim va dem cac dong loi CRITICAL
+PS C:\Users\admin> $errors = @(Select-String -Path .\server.log -Pattern "CRITICAL" -ErrorAction Stop)
+PS C:\Users\admin>
+PS C:\Users\admin> # Ghi bao cao
+PS C:\Users\admin> "=== Bat dau quet log: $(Get-Date) ===" |
+>>     Out-File .\daily_critical.txt -Encoding utf8
+PS C:\Users\admin>
+PS C:\Users\admin> $errors | ForEach-Object { $_.Line } |
+>>     Out-File .\daily_critical.txt -Append -Encoding utf8
+PS C:\Users\admin>
+PS C:\Users\admin> "=== Hoan tat. So dong loi: $($errors.Count) ===" |
+>>     Out-File .\daily_critical.txt -Append -Encoding utf8
+PS C:\Users\admin>
+PS C:\Users\admin> # Xem ket qua
+PS C:\Users\admin> Get-Content .\daily_critical.txt

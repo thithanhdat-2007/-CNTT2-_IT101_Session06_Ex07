@@ -1,0 +1,6 @@
+Trace lần lượt từng lệnh:
+- Lệnh 1: Tạo hoặc ghi đè daily_critical.txt, ghi dòng tiêu đề bắt đầu.
+- Lệnh 2: Tìm "critical" nhưng có -CaseSensitive, trong khi log ghi CRITICAL, nên không tìm được dòng nào.
+- Lệnh 3: Ghi thêm dòng thông báo hoàn tất.
+- Lệnh 4: Đếm số dòng trong file báo cáo, gồm 2 dòng tiêu đề, rồi ghi số 2. Đây không phải số dòng lỗi.
+Vì vậy, file không hoàn toàn trống nhưng thiếu nội dung lỗi và đếm sai.
